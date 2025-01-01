@@ -193,6 +193,32 @@ public class StoveCounter : BaseCounter, IHasProgress
             {
                 // player is carrying something
 
+                // check if player carrying a plate
+                if (player.GetKitchenObject().TryGetPlate(out PlateKitchenObject plateKitchenObject))
+                {
+                    // Player is holding a plate                   
+
+                    // adding the object the player is holding to the plate
+                    if (plateKitchenObject.TryAddIngredient(GetKitchenObject().GetKitchenObjectSO()))
+                    {
+                        // destory the object itself since the object already added to the plate
+                        GetKitchenObject().DestroySelf();
+
+                        // reset the state after the patty is picked up
+                        state = State.Idle;
+                        OnStateChanged?.Invoke(this, new OnStateChangedEventArgs
+                        {
+                            // OnStateChangedEventArgs.state = StoveCounter.state
+                            state = state
+                        });
+                        // change the progress bar to zero when player pick up the frying object
+                        OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs
+                        {
+                            progressNormalized = 0f
+                        });
+                    }
+                }
+
             }
             else
             {

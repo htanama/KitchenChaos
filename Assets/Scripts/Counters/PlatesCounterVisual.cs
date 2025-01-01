@@ -18,14 +18,17 @@ public class PlatesCounterVisual : MonoBehaviour
     private void Awake()
     {
         plateVisualGameObjectList = new List<GameObject>();
+        
     }
 
     private void Start()
     {
         // Event Subscriber
         plateCounter.OnPlateSpawned += PlateCounter_OnPlateSpawned;
-    }
+        plateCounter.OnPlateRemoveed += PlateCounter_OnPlateRemoveed;
 
+    }
+   
     // Event Subscriber
     private void PlateCounter_OnPlateSpawned(object sender, System.EventArgs e)
     {
@@ -38,4 +41,12 @@ public class PlatesCounterVisual : MonoBehaviour
         // Adding plate to a List as GameObject 
         plateVisualGameObjectList.Add(plateVisualTransform.gameObject);
     }
+
+    private void PlateCounter_OnPlateRemoveed(object sender, System.EventArgs e)
+    {
+        GameObject plateGameObject = plateVisualGameObjectList[plateVisualGameObjectList.Count - 1];
+        plateVisualGameObjectList.Remove(plateGameObject);
+        Destroy(plateGameObject);
+    }
+
 }
