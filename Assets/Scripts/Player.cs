@@ -20,6 +20,8 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     //    }
     //}
 
+    public event EventHandler OnPickedSomething;
+
     // This is the Publisher of the event.
     public event EventHandler <OnSelectedCounterChangedEventArgs> OnSelectedCounterChanged;
     public class OnSelectedCounterChangedEventArgs : EventArgs
@@ -203,7 +205,14 @@ public class Player : MonoBehaviour, IKitchenObjectParent
 
     public void SetKitchenObject(KitchenObject kitchenObject)
     {
+        //player pickup a kitchenObject
         this.kitchenObject = kitchenObject;
+
+        if(kitchenObject != null)
+        {
+            // Invoke event to play sound
+            OnPickedSomething?.Invoke(this, EventArgs.Empty);
+        }
     }
 
     public KitchenObject GetKitchenObject()
