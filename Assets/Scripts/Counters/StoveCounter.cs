@@ -8,6 +8,8 @@ using UnityEngine.EventSystems;
 
 public class StoveCounter : BaseCounter, IHasProgress
 {
+    
+
     public event EventHandler<IHasProgress.OnProgressChangedEventArgs> OnProgressChanged;
 
     // This is Publisher.
